@@ -1,4 +1,5 @@
 <template>
+<!--  个人信息页面 -->
   <div class="app-container">
     <el-row :gutter="20">
       <el-col :span="6" :xs="24">
