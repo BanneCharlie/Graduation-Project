@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.BusinessDeviceMapper">
+
+    <resultMap id="businessDevice" type="com.ruoyi.project.business.domain.BusinessDevice">
+        <id property="rowId" column="ROW_ID"/>
+        <result property="contractId" column="CONTRACT_ID"/>
+        <result property="reqCheckId" column="REQ_CHECK_ID"/>
+        <result property="deviceCategory" column="DEVICE_CATEGORY"/>
+        <result property="deviceName" column="DEVICE_NAME"/>
+        <result property="deviceNumber" column="DEVICE_NUMBER"/>
+        <result property="useUnit" column="USE_UNIT"/>
+        <result property="orderNum" column="ORDER_NUM"/>
+        <result property="receivingUserId" column="RECEIVING_USER_ID"/>
+        <result property="receivingUserName" column="RECEIVING_USER_NAME"/>
+        <result property="isReceiving" column="IS_RECEIVING"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+        <result property="isRead" column="IS_READ"/>
+    </resultMap>
+
+    <resultMap id="deviceVo" type="com.ruoyi.project.business.vo.DeviceVo">
+        <result property="rowId"    column="row_id"    />
+        <result property="contractRowId"    column="contract_row_id"    />
+        <result property="entrustUnit"    column="entrust_unit"    />
+        <result property="typeUnit"    column="type_unit"    />
+        <result property="useUnit"    column="use_unit"    />
+        <result property="addressUnit"    column="address_unit"    />
+        <result property="deviceCategory"    column="device_category"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="checkCategory"    column="check_category"    />
+        <result property="deviceCount"    column="device_count"    />
+        <result property="contractMoney"    column="contract_money"    />
+        <result property="realMoney"    column="real_money"    />
+        <result property="paymentType"    column="payment_type"    />
+        <result property="liaisons"    column="liaisons"    />
+        <result property="phone"    column="phone"    />
+        <result property="zipCode"    column="zip_code"    />
+        <result property="checkDept"    column="check_dept"    />
+        <result property="formationTime"    column="formation_time"    />
+        <result property="orderTime"    column="order_time"    />
+        <result property="contractNumber"    column="contract_number"    />
+        <result property="checkUserName"    column="check_user_name"    />
+        <result property="checkUserId"    column="check_user_id"    />
+        <result property="fileResultIds"    column="file_result_ids"    />
+        <result property="attachmentResultIds"    column="attachment_result_ids"    />
+        <result property="createUserName"    column="create_user_name"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createDeptId"    column="create_dept_id"    />
+        <result property="createDeptName"    column="create_dept_name"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="status"    column="status"    />
+        <result property="title"    column="title"    />
+        <result property="ptid"    column="ptid"    />
+        <result property="piid"    column="piid"    />
+        <result property="paid"    column="paid"    />
+        <result property="proceedingId"    column="proceeding_id"    />
+        <result property="businessKey"    column="business_key"    />
+        <result property="actName"    column="act_name"    />
+        <result property="actId"    column="act_id"    />
+        <result property="deletes"    column="deletes"    />
+        <result property="isRead"    column="is_read"    />
+        <result property="deviceNumber"    column="DEVICE_NUMBER"    />
+        <result property="receivingUserId"    column="RECEIVING_USER_ID"    />
+        <result property="receivingUserName"    column="RECEIVING_USER_NAME"    />
+        <result property="isReceiving"    column="IS_RECEIVING"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="com.ruoyi.project.business.vo.ReqCheckVo" id="reqCheckVo">
+        <result property="rowId"    column="row_id"    />
+        <result property="entrustUnit"    column="entrust_unit"    />
+        <result property="useUnit"    column="use_unit"    />
+        <result property="makeUnit"    column="make_unit"    />
+        <result property="constructUnit"    column="construct_unit"    />
+        <result property="repairUnit"    column="repair_unit"    />
+        <result property="deviceModel"    column="device_model"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="productNumber"    column="product_number"    />
+        <result property="dateOfManufacture"    column="date_of_manufacture"    />
+        <result property="devicePlace"    column="device_place"    />
+        <result property="dutyCheckUserId"    column="duty_check_user_id"    />
+        <result property="dutyCheckUserName"    column="duty_check_user_name"    />
+        <result property="checkUserName"    column="check_user_name"    />
+        <result property="checkUserId"    column="check_user_id"    />
+        <result property="liaisons"    column="liaisons"    />
+        <result property="phone"    column="phone"    />
+        <result property="reportNumber"    column="report_number"    />
+        <result property="reportTemplateName"    column="report_template_name"    />
+        <result property="reportTemplateId"    column="report_template_id"    />
+        <result property="contractId"    column="contract_id"    />
+        <result property="contractNumber"    column="contract_number"    />
+        <result property="money"    column="money"    />
+        <result property="reportIssue"    column="report_issue"    />
+        <result property="reportIssueNumber"    column="report_issue_number"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUserName"    column="create_user_name"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createDeptId"    column="create_dept_id"    />
+        <result property="createDeptName"    column="create_dept_name"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="status"    column="status"    />
+        <result property="title"    column="title"    />
+        <result property="ptid"    column="ptid"    />
+        <result property="piid"    column="piid"    />
+        <result property="paid"    column="paid"    />
+        <result property="proceedingId"    column="proceeding_id"    />
+        <result property="businessKey"    column="business_key"    />
+        <result property="actName"    column="act_name"    />
+        <result property="actId"    column="act_id"    />
+        <result property="deletes"    column="deletes"    />
+        <result property="fileResultIds"    column="file_result_ids"    />
+        <result property="attachmentResultIds"    column="attachment_result_ids"    />
+        <result property="deviceNumber"    column="device_number"    />
+        <result property="isRead"    column="is_read"    />
+        <result property="isHandle"    column="is_handle"    />
+        <result property="isReceiving"    column="IS_RECEIVING"    />
+    </resultMap>
+
+    <select id="selectByContractIdUser" parameterType="string" resultMap="businessDevice">
+        SELECT * FROM business_device
+        WHERE CONTRACT_ID = #{contractId}
+            AND RECEIVING_USER_ID = #{receivingUserId}
+            AND IS_RECEIVING = '0'
+        ORDER BY ORDER_NUM
+    </select>
+
+    <update id="updateReadByCheckId" parameterType="string">
+        UPDATE business_device SET IS_READ = '0' WHERE REQ_CHECK_ID = #{rowId}
+    </update>
+
+    <select id="getTaskReceive" parameterType="string" resultMap="deviceVo">
+        SELECT bd.row_id,
+               b.row_id as contract_row_id,
+               b.entrust_unit,
+               b.type_unit,
+               b.use_unit,
+               b.address_unit,
+               b.device_category,
+               b.device_name,
+               b.check_category,
+               b.device_count,
+               b.contract_money,
+               b.real_money,
+               b.payment_type,
+               b.is_payment_success,
+               b.liaisons,
+               b.phone,
+               b.zip_code,
+               b.check_dept,
+               b.formation_time,
+               b.order_time,
+               b.contract_number,
+               b.check_user_name,
+               b.check_user_id,
+               b.file_result_ids,
+               b.attachment_result_ids,
+               b.create_user_name,
+               b.create_user_id,
+               b.create_dept_id,
+               b.create_dept_name,
+               b.status,
+               b.title,
+               b.ptid,
+               b.piid,
+               b.paid,
+               b.proceeding_id,
+               b.business_key,
+               b.act_name,
+               b.act_id,
+               b.deletes,
+               bd.DEVICE_NUMBER,
+               bd.RECEIVING_USER_ID,
+               bd.RECEIVING_USER_NAME,
+               bd.ORDER_NUM,
+               bd.IS_READ,
+               bd.IS_RECEIVING,
+               bd.CREATE_TIME,
+               bd.UPDATE_TIME
+        FROM business_request_contract_review b
+                 LEFT JOIN business_device bd ON b.row_id = bd.CONTRACT_ID
+        WHERE FIND_IN_SET(#{userId}, b.check_user_id) > 0
+
+        AND bd.IS_READ = 1
+        <if test="deviceVo.title != null and deviceVo.title != ''">
+            AND b.title like CONCAT('%', #{deviceVo.title} ,'%')
+        </if>
+        <if test="deviceVo.contractNumber != null and deviceVo.contractNumber != ''">
+            AND b.contract_number like CONCAT('%', #{deviceVo.contractNumber} ,'%')
+        </if>
+        <if test="deviceVo.deviceNumber != null and deviceVo.deviceNumber != ''">
+            AND bd.DEVICE_NUMBER like CONCAT('%', #{deviceVo.deviceNumber} ,'%')
+        </if>
+        <if test="deviceVo.isReceiving != null and deviceVo.isReceiving != ''">
+            AND bd.IS_RECEIVING = #{deviceVo.isReceiving}
+        </if>
+        ORDER BY bd.CREATE_TIME DESC , bd.ORDER_NUM ASC
+    </select>
+
+    <select id="getTaskReceiveCount" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM business_request_contract_review b
+                 LEFT JOIN business_device bd ON b.row_id = bd.CONTRACT_ID
+        WHERE FIND_IN_SET(#{username}, b.check_user_id) > 0
+            AND bd.IS_RECEIVING = '1'
+        ORDER BY b.row_id, bd.ORDER_NUM, bd.CREATE_TIME DESC
+    </select>
+
+    <select id="getTaskPending" parameterType="string" resultMap="deviceVo">
+        SELECT
+            bd.row_id,
+            b.row_id AS contract_row_id,
+            b.entrust_unit,
+            b.type_unit,
+            b.use_unit,
+            b.address_unit,
+            b.device_category,
+            b.device_name,
+            b.check_category,
+            b.device_count,
+            b.contract_money,
+            b.real_money,
+            b.payment_type,
+            b.liaisons,
+            b.phone,
+            b.zip_code,
+            b.check_dept,
+            b.formation_time,
+            b.order_time,
+            b.contract_number,
+            b.check_user_name,
+            b.check_user_id,
+            b.file_result_ids,
+            b.attachment_result_ids,
+            b.create_user_name,
+            b.create_user_id,
+            b.create_dept_id,
+            b.create_dept_name,
+            b.STATUS,
+            b.title,
+            b.ptid,
+            b.piid,
+            b.paid,
+            b.proceeding_id,
+            b.business_key,
+            b.act_name,
+            b.act_id,
+            b.deletes,
+            bd.DEVICE_NUMBER,
+            bd.RECEIVING_USER_ID,
+            bd.RECEIVING_USER_NAME,
+            bd.ORDER_NUM,
+            bd.IS_READ,
+            bd.IS_RECEIVING,
+            bd.CREATE_TIME,
+            bd.UPDATE_TIME
+        FROM
+            business_request_contract_review b
+            LEFT JOIN business_device bd ON b.row_id = bd.CONTRACT_ID
+        WHERE
+            bd.RECEIVING_USER_ID = #{username}
+            AND
+            bd.IS_READ = #{deviceVo.isRead} AND bd.IS_RECEIVING = #{deviceVo.isReceiving}
+        <if test="deviceVo.title != null and deviceVo.title != ''">
+            AND b.title like CONCAT('%', #{deviceVo.title} ,'%')
+        </if>
+        <if test="deviceVo.contractNumber != null and deviceVo.contractNumber != ''">
+            AND b.contract_number like CONCAT('%', #{deviceVo.contractNumber} ,'%')
+        </if>
+        <if test="deviceVo.deviceNumber != null and deviceVo.deviceNumber != ''">
+            AND bd.DEVICE_NUMBER like CONCAT('%', #{deviceVo.deviceNumber} ,'%')
+        </if>
+        ORDER BY
+            bd.UPDATE_TIME DESC,
+            bd.ORDER_NUM DESC
+    </select>
+
+    <select id="getTasksProcessed" parameterType="string" resultMap="reqCheckVo">
+        SELECT
+            `b`.`row_id` AS `row_id`,
+            `b`.`entrust_unit` AS `entrust_unit`,
+            `b`.`use_unit` AS `use_unit`,
+            `b`.`make_unit` AS `make_unit`,
+            `b`.`construct_unit` AS `construct_unit`,
+            `b`.`repair_unit` AS `repair_unit`,
+            `b`.`device_model` AS `device_model`,
+            `b`.`product_number` AS `product_number`,
+            `b`.`date_of_manufacture` AS `date_of_manufacture`,
+            `b`.`device_place` AS `device_place`,
+            `b`.`duty_check_user_id` AS `duty_check_user_id`,
+            `b`.`duty_check_user_name` AS `duty_check_user_name`,
+            `b`.`check_user_name` AS `check_user_name`,
+            `b`.`check_user_id` AS `check_user_id`,
+            `b`.`liaisons` AS `liaisons`,
+            `b`.`phone` AS `phone`,
+            `b`.`report_number` AS `report_number`,
+            `b`.`report_template_name` AS `report_template_name`,
+            `b`.`report_template_id` AS `report_template_id`,
+            `b`.`contract_id` AS `contract_id`,
+            `b`.`contract_number` AS `contract_number`,
+            `b`.`money` AS `money`,
+            `b`.`report_issue` AS `report_issue`,
+            `b`.`report_issue_number` AS `report_issue_number`,
+            `b`.`create_time` AS `create_time`,
+            `b`.`create_user_name` AS `create_user_name`,
+            `b`.`create_user_id` AS `create_user_id`,
+            `b`.`create_dept_id` AS `create_dept_id`,
+            `b`.`create_dept_name` AS `create_dept_name`,
+            `b`.`order_num` AS `order_num`,
+            `b`.`status` AS `status`,
+            `b`.`title` AS `title`,
+            `b`.`ptid` AS `ptid`,
+            `b`.`piid` AS `piid`,
+            `b`.`paid` AS `paid`,
+            `b`.`proceeding_id` AS `proceeding_id`,
+            `b`.`business_key` AS `business_key`,
+            `b`.`act_name` AS `act_name`,
+            `b`.`act_id` AS `act_id`,
+            `b`.`deletes` AS `deletes`,
+            `b`.`file_result_ids` AS `file_result_ids`,
+            `b`.`attachment_result_ids` AS `attachment_result_ids`,
+            `bd`.`device_name` AS `device_name`,
+            `bd`.`DEVICE_NUMBER` AS `device_number`,
+            `bd`.`IS_READ` AS `is_read`,
+            `bd`.`IS_HANDLE` AS `is_handle`,
+            `bd`.`IS_RECEIVING` AS `IS_RECEIVING`
+        FROM
+            `business_request_report_manage` `b`
+             LEFT JOIN `business_device` `bd` ON `b`.`device_row_id` = `bd`.`ROW_ID`
+        WHERE
+             `bd`.`RECEIVING_USER_ID` = #{username}
+          AND
+              bd.IS_READ = #{reqCheckVo.isRead} AND bd.IS_RECEIVING = #{reqCheckVo.isReceiving}
+        <if test="reqCheckVo.title != null and reqCheckVo.title != ''">
+            AND b.title like CONCAT('%', #{reqCheckVo.title} ,'%')
+        </if>
+        <if test="reqCheckVo.reportNumber != null and reqCheckVo.reportNumber != ''">
+            AND b.report_number like CONCAT('%', #{reqCheckVo.reportNumber} ,'%')
+        </if>
+        <if test="reqCheckVo.deviceNumber != null and reqCheckVo.deviceNumber != ''">
+            AND bd.DEVICE_NUMBER like CONCAT('%', #{reqCheckVo.deviceNumber} ,'%')
+        </if>
+        <if test="reqCheckVo.isHandle != null and reqCheckVo.isHandle != '' or reqCheckVo.isHandle == 0">
+            AND bd.IS_HANDLE = #{reqCheckVo.isHandle}
+        </if>
+        ORDER BY
+            `bd`.`device_number`,
+            `bd`.`ORDER_NUM`,
+            `bd`.`CREATE_TIME` DESC
+    </select>
+
+    <select id="selectByContractId" parameterType="string" resultMap="businessDevice">
+        SELECT * FROM business_device
+        WHERE CONTRACT_ID = #{contractId}
+        ORDER BY ORDER_NUM
+    </select>
+</mapper>

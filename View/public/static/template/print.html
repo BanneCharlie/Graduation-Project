@@ -1,0 +1,185 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="renderer" content="webkit" />
+		<title>打印报告内容</title>
+		<script src="../jquery-1.11.3/jquery.min.js"></script>
+	</head>
+
+	<body id="previewBody">
+		<div id="printDiv" style="text-align: center; margin-bottom: 30px">
+			<button style="color: red; font-size: 18px" onclick="printReport()">打印报告(建议使用谷歌浏览器!)</button>
+		</div>
+	</body>
+
+	<script>
+		const hostName = window.location.hostname;
+		// 网关 api 地址
+		const api_pattern = hostName == 'localhost' ? 'dev-api' : 'prod-api';
+		const proxyApiUrl = location.origin + '/' + api_pattern;
+		const requestDataSourceApi = '/api/report';
+
+		// ================  常量      ================
+		const INNER_TARGET_TAG_GROUP_CLASS_NAME_ARR = [
+			'compositionTypeBianZhi',
+			'compositionTypeShenHe',
+			'compositionTypePiZhun',
+			'compositionTypeStampDate'
+		];
+		const INNER_TARGET_TAG_GROUP_CLASS_NAME_SPECIAL_TYPE_MAP = {
+			[INNER_TARGET_TAG_GROUP_CLASS_NAME_ARR[0]]: 0,
+			[INNER_TARGET_TAG_GROUP_CLASS_NAME_ARR[1]]: 0,
+			[INNER_TARGET_TAG_GROUP_CLASS_NAME_ARR[2]]: 0,
+			[INNER_TARGET_TAG_GROUP_CLASS_NAME_ARR[3]]: 1
+		};
+		const INNER_TARGET_TAG_DATE_GROUP_CLASS_NAME_ARR = ['compositionTypeBianZhi_Date', 'compositionTypeShenHe_Date', 'compositionTypePiZhun_Date'];
+
+		// ================  请求参数  ================
+		const paramMap = getUrlParams(window.location.href);
+		const reportId = paramMap['reportId'];
+		const contractReviewId = paramMap['contractReviewId'];
+
+		// ===========================================
+
+		$(function () {
+
+      console.log(INNER_TARGET_TAG_GROUP_CLASS_NAME_SPECIAL_TYPE_MAP);
+			$('#printDiv').hide();
+			getCurrentReportContent();
+			getReportExamineProcessHistoryInfo();
+		});
+
+		// 获取当前报告的报告内容
+		function getCurrentReportContent() {
+			let previewBody = $('#previewBody');
+			$.ajax({
+				url: proxyApiUrl + requestDataSourceApi + '/resolve-report-and-return',
+				method: 'post',
+				data: JSON.stringify({
+					contractReviewId: contractReviewId,
+					reportId: reportId
+				}),
+				contentType: 'application/json',
+				dataType: 'JSON',
+				success: function (res) {
+					let data = res.data;
+					if (!!data) {
+						let appendTag = '';
+						let reportGenericContext = data.reportGenericContext;
+						let reportTemplateContext = data.reportTemplateContext;
+						if (reportGenericContext) {
+							appendTag += reportGenericContext;
+						}
+						if (reportTemplateContext) {
+							appendTag += reportTemplateContext;
+						}
+						previewBody.append(appendTag);
+					}
+					$('#printDiv').show();
+				},
+				error: function (res) {
+					$('#printDiv').show();
+				}
+			});
+		}
+
+		/** 获取当前报告审批流程历史信息 */
+		function getReportExamineProcessHistoryInfo() {
+			$.ajax({
+				url: proxyApiUrl + requestDataSourceApi + '/get-report-process-info/' + reportId,
+				method: 'get',
+				contentType: 'application/json',
+				success: function (res) {
+					executeReportExamineProcessInfo(res.data);
+				}
+			});
+		}
+
+		/** 处理报告审批流程信息 */
+		function executeReportExamineProcessInfo(reportExamineProcessMap) {
+			for (const key in reportExamineProcessMap) {
+				let className;
+				let classIndex = -1;
+				// 申请
+				if (key.indexOf('申请') != -1) {
+					className = INNER_TARGET_TAG_GROUP_CLASS_NAME_ARR[0];
+					classIndex = 0;
+				} else if (key.indexOf('审核') != -1) {
+					className = INNER_TARGET_TAG_GROUP_CLASS_NAME_ARR[1];
+					classIndex = 1;
+				} else if (key.indexOf('批准') != -1) {
+					className = INNER_TARGET_TAG_GROUP_CLASS_NAME_ARR[2];
+					classIndex = 2;
+				}
+
+				if (!!className) {
+					// ExamineUserPartInfo
+					const value = reportExamineProcessMap[key];
+					insertExamineUserPartInfo(classIndex, className, value);
+				}
+			}
+		}
+
+		/** 插入审批人的签名信息 */
+		function insertExamineUserPartInfo(classIndex, targetClassName, examineUserPart) {
+			// 目标标签
+			let targetTag = $('.' + targetClassName);
+
+			// 插入签名
+			let signatureId = examineUserPart['signatureId'];
+			if (signatureId) {
+				let signatureUrl = proxyApiUrl + '/fileModule/show-signature/' + signatureId;
+				let insertExamineUserSignatureTag = '<span><img style="height:25px;" src="' + signatureUrl + '" /></span>';
+				targetTag.append($(insertExamineUserSignatureTag));
+			} else {
+				let insertExamineUserSignatureTag = '<span><img style="height:25px;" alt="暂无签名"" /></span>';
+				targetTag.append($(insertExamineUserSignatureTag));
+			}
+			// 目标标签的下一个目标标签 (日期标签)
+			let nextTargetTag = $(targetTag[0].nextElementSibling);
+
+			// 插入日期标签信息 - 此时先插入 input 标签可用于更改 , 最后执行打印时 替换为内容
+			// let insertExamineUserDateTag = '<span>' + examineUserPart['executeTime'] + '</span>';
+			let insertExamineUserDateTag =
+				'<input style="width:130px;" class="' +
+				INNER_TARGET_TAG_DATE_GROUP_CLASS_NAME_ARR[classIndex] +
+				'" type="date" value="' +
+				examineUserPart['executeTime'] +
+				'" />';
+			nextTargetTag.append($(insertExamineUserDateTag));
+		}
+
+		// 点击打印报告按钮 执行方法
+		function printReport() {
+			// 1. 替换日期组件
+			INNER_TARGET_TAG_DATE_GROUP_CLASS_NAME_ARR.forEach((value, index) => {
+				let inputTag = $('.' + value);
+				let parent_Tag = inputTag.parent();
+				let inputDateVal = inputTag.val();
+				inputTag.remove();
+				parent_Tag.html(parent_Tag.html() + inputDateVal);
+			});
+
+			$('#printDiv').hide();
+			window.print();
+			$('#printDiv').show();
+		}
+
+		// 获取URL的拼接参数信息
+		function getUrlParams(url) {
+			// 通过 ? 分割获取后面的参数字符串
+			let urlStr = url.split('?')[1];
+			// 创建空对象存储参数
+			let obj = {};
+			// 再通过 & 将每一个参数单独分割出来
+			let paramsArr = urlStr.split('&');
+			for (let i = 0, len = paramsArr.length; i < len; i++) {
+				// 再通过 = 将每一个参数分割为 key:value 的形式
+				let arr = paramsArr[i].split('=');
+				obj[arr[0]] = arr[1];
+			}
+			return obj;
+		}
+	</script>
+</html>

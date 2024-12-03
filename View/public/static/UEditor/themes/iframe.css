@@ -1,0 +1,17 @@
+/*可以在这里添加你自己的css*/
+
+table[align="center"] {
+    margin: 0 auto !important;
+}
+
+p {
+    text-align: center !important;
+}
+
+p span {
+    text-align: center !important;
+}
+
+span {
+    text-align: center !important;
+}

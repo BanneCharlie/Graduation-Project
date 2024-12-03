@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.RequestStatisticsMapper">
+
+    <resultMap id="ReqStatisticsVo" type="com.ruoyi.project.business.vo.ReqStatisticsVo">
+        <result property="reqContRowId"    column="req_cont_row_id"    />
+        <result property="contractNumber"    column="contract_number"    />
+        <result property="deviceCount"    column="device_count"    />
+        <result property="contractMoney"    column="contract_money"    />
+        <result property="checkDept"    column="check_dept"    />
+        <result property="checkDeptId"    column="check_dept_id"    />
+        <result property="checkUserName"    column="check_user_name"    />
+        <result property="checkUserId"    column="check_user_id"    />
+        <result property="contTitle"    column="cont_title"    />
+        <result property="contPtid"    column="cont_ptid"    />
+        <result property="contPiid"    column="cont_piid"    />
+        <result property="contPaid"    column="cont_paid"    />
+        <result property="contProceedingId"    column="cont_proceeding_id"    />
+        <result property="contBusinessKey"    column="cont_business_key"    />
+        <result property="contActName"    column="cont_act_name"    />
+        <result property="contActId"    column="cont_act_id"    />
+        <result property="contDeletes"    column="cont_deletes"    />
+        <result property="contIsRead"    column="cont_is_read"    />
+        <result property="reqRepRowId"    column="req_rep_row_id"    />
+        <result property="reportNumber"    column="report_number"    />
+        <result property="deviceRowId"    column="device_row_id"    />
+        <result property="repTitle"    column="rep_title"    />
+        <result property="repPtid"    column="rep_ptid"    />
+        <result property="repPiid"    column="rep_piid"    />
+        <result property="repPaid"    column="rep_paid"    />
+        <result property="repProceedingId"    column="rep_proceeding_id"    />
+        <result property="repBusinessKey"    column="rep_business_key"    />
+        <result property="repActName"    column="rep_act_name"    />
+        <result property="repActId"    column="rep_act_id"    />
+        <result property="repDeletes"    column="rep_deletes"    />
+        <result property="repIsRead"    column="rep_is_read"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <select id="getList" parameterType="com.ruoyi.project.business.vo.ReqStatisticsVo" resultMap="ReqStatisticsVo">
+        SELECT
+            bc.row_id req_cont_row_id,
+            bc.contract_number contract_number,
+            bc.device_count device_count,
+            bc.contract_money contract_money,
+            sd.dept_name check_dept,
+            sd.dept_id check_dept_id,
+            bc.check_user_name check_user_name,
+            bc.check_user_id check_user_id,
+            bc.title cont_title,
+            bc.ptid cont_ptid,
+            bc.piid cont_piid,
+            bc.paid cont_paid,
+            bc.proceeding_id cont_proceeding_id,
+            bc.business_key cont_business_key,
+            bc.act_name cont_act_name,
+            bc.act_id cont_act_id,
+            bc.deletes cont_deletes,
+            bc.is_read cont_is_read,
+            bc.create_time create_time,
+            br.row_id req_rep_row_id,
+            br.report_number report_number,
+            br.device_row_id device_row_id,
+            br.title rep_title,
+            br.ptid rep_ptid,
+            br.piid rep_piid,
+            br.paid rep_paid,
+            br.proceeding_id rep_proceeding_id,
+            br.business_key rep_business_key,
+            br.act_name rep_act_name,
+            br.act_id rep_act_id,
+            br.deletes rep_deletes,
+            br.is_read rep_is_read
+        FROM
+            business_request_contract_review bc
+                JOIN business_request_report_manage br ON bc.row_id = br.contract_id
+                LEFT JOIN sys_dept sd ON bc.check_dept = sd.dept_id
+        WHERE 1 = 1
+        <if test="checkDeptId != null and checkDeptId != ''">
+            AND sd.dept_id = #{checkDeptId}
+        </if>
+        <if test="startTime != null"><!-- 开始时间检索 -->
+            AND bc.create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null"><!-- 结束时间检索 -->
+            AND bc.create_time &lt;= #{endTime}
+        </if>
+        GROUP BY
+            bc.row_id
+        ORDER BY bc.row_id
+    </select>
+
+</mapper>

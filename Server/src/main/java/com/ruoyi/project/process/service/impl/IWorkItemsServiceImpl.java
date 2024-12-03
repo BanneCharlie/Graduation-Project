@@ -1,0 +1,17 @@
+package com.ruoyi.project.process.service.impl;
+
+import com.ruoyi.project.process.domian.WorkItems;
+import com.ruoyi.project.process.mapper.WorkItemsMapper;
+import com.ruoyi.project.process.service.IWorkItemsService;
+import com.ruoyi.project.template.commons.mybatis.base.service.impl.BaseServiceImpl;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * @author niminui
+ * @date 2021/5/24 13:46
+ */
+@Service
+@Transactional(rollbackFor = Exception.class)
+public class IWorkItemsServiceImpl extends BaseServiceImpl<WorkItemsMapper, WorkItems> implements IWorkItemsService {
+}

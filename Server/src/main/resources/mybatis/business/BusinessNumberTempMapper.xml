@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.BusinessNumTempMapper">
+    
+    <resultMap id="commonResultMap" type="com.ruoyi.project.business.domain.BusinessNumTemp">
+<!--        <result column="row_id" property="rowId"/>-->
+        <result column="business_row_id" property="businessRowId"/>
+        <result column="device_type" property="deviceType"/>
+        <result column="type" property="type"/>
+        <result column="number" property="number"/>
+        <result column="is_use" property="isUse"/>
+        <result column="current_operation_identifying" property="currentOperationIdentifying"/>
+        <result column="process_status" property="processStatus"/>
+    </resultMap>
+    
+    <sql id="commonSelect">
+        select * from business_number_temp
+    </sql>
+
+    <select id="selectMaxBusinessNumByType" resultType="java.lang.Integer">
+        SELECT
+            MAX(number)
+        FROM
+            business_number_temp
+        WHERE
+            device_type = #{type}
+    </select>
+    <select id="selectTableListByType" resultType="java.lang.Integer">
+        SELECT
+            number
+        FROM
+            business_number_temp
+        WHERE
+            device_type = #{type}
+    </select>
+</mapper>

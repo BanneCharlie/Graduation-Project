@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.BusinessRelationDeviceUserMapper">
+
+    <select id="selectChangeUserIsGenericReportCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            business_relation_device_user brdu
+        LEFT JOIN
+            business_request_report brr
+        ON brdu.contract_id = brr.business_contract_review_id
+        AND brdu.device_id = brr.business_device_id
+        WHERE
+            brdu.row_id = #{rowId}
+        AND
+            brr.is_generic_report = '0'
+    </select>
+</mapper>

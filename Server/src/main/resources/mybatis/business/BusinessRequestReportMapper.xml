@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.business.mapper.BusinessRequestReportMapper">
+
+    <resultMap id="resultReportVoResultMap" type="com.ruoyi.project.business.vo.ReportVo">
+        <result column="deviceId" property="deviceId"/>
+        <result column="templateCategory" property="templateCategory"/>
+        <result column="contractId" property="contractId"/>
+        <result column="templateId" property="templateId"/>
+        <result column="templateName" property="templateName"/>
+        <result column="reportId" property="reportId"/>
+        <result column="contractNumber" property="contractNumber"/>
+        <result column="receivingUserName" property="receivingUserName"/>
+        <result column="createTime" property="createTime"/>
+        <result column="deviceNumber" property="deviceNumber"/>
+        <result column="isPrint" property="isPrint"/>
+        <result column="isStartFlow" property="isStartFlow"/>
+        <result column="isReset" property="isReset"/>
+        <result column="fileName" property="fileName"/>
+        <result column="filePath" property="filePath"/>
+        <result column="fileRelativeName" property="fileRelativeName"/>
+        <result column="fileUploadTime" property="fileUploadTime"/>
+        <result column="filePages" property="filePages"/>
+    </resultMap>
+
+    <select id="getReportVoList" resultMap="resultReportVoResultMap">
+        SELECT
+            DISTINCT
+            brr.business_device_id as deviceId ,
+            brr.business_device_number as deviceNumber,
+            brr.template_category as templateCategory ,
+            brr.business_contract_review_id as contractId ,
+            brr.template_id as templateId ,
+            brr.template_name as templateName ,
+            brr.row_id as reportId,
+            brr.create_time as createTime ,
+            brr.is_print as isPrint,
+            brr.is_start_flow as isStartFlow,
+            brr.is_reset as isReset,
+            brcr.contract_number as contractNumber ,
+            bd.receiving_user_name as receivingUserName ,
+            brr.file_name as fileName,
+            brr.file_path as filePath,
+            brr.file_upload_time as fileUploadTime,
+            brr.file_pages as filePages,
+            brr.file_relative_name as fileRelativeName
+        FROM
+            business_request_report brr
+        LEFT JOIN
+            business_device bd ON bd.row_id = brr.business_device_id
+        LEFT JOIN
+            business_relation_device_user brdu ON bd.row_id = brdu.device_id
+        LEFT JOIN
+            business_request_contract_review brcr ON brcr.row_id = bd.contract_id
+        <where>
+            brr.is_generic_report = '1'
+            AND
+            brdu.user_id = #{userId}
+            <if test="templateCategory != null and templateCategory != ''">
+                AND brr.template_category = #{templateCategory}
+            </if>
+            <if test="queryParams.contractNumber != null and queryParams.contractNumber != '' ">
+                AND brcr.contract_number LIKE CONCAT('%' , #{queryParams.contractNumber} , '%')
+            </if>
+            <if test="queryParams.receivingUserName != null and queryParams.receivingUserName != '' ">
+                AND bd.receiving_user_name LIKE CONCAT('%' , #{queryParams.receivingUserName} , '%')
+            </if>
+        </where>
+        ORDER BY brr.create_time DESC
+    </select>
+</mapper>
