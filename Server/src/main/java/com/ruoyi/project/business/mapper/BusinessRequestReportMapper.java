@@ -20,4 +20,6 @@ import java.util.Map;
 public interface BusinessRequestReportMapper extends BaseMapper<BusinessRequestReport> {
 
     List<ReportVo> getReportVoList(@Param("userId") Long userId , @Param("queryParams")Map<String, String> queryParams , @Param("templateCategory")String templateCategory);
+
+    List<ReportVo> getAllReportList();
 }

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {showTemplateReportData} from '@/api/qrcode'
+import {showTemplateReportData} from '@/api/chart'
 import ruoyi from '@/utils/ruoyi'
 
 export default {
@@ -54,7 +54,7 @@ export default {
                 if(qrcodePath != '' && qrcodePath != undefined){
                   let Base64 = require('js-base64').Base64;
                   this.qrcodeImageServerPath = this.showImageServerInterfacePath + Base64.encode(qrcodePath+'');
-                  this.rawHtml += 
+                  this.rawHtml +=
                   '            <div  style="text-align: center;margin-top:200px">\n' +
                   '               <img src="'+ this.qrcodeImageServerPath +'" alt="暂无二维码!"/>\n' +
                   '            </div>\n';

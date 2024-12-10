@@ -150,11 +150,11 @@
                 <el-input :disabled="true" class="uniflItem " v-model="formItem.addressUnit"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+<!--          <el-col :span="12">
             <el-form-item class="rightItem" label="邮编" prop="zipCode">
                 <el-input :disabled="true" class="uniflItem " v-model="formItem.zipCode"></el-input>
             </el-form-item>
-          </el-col>
+          </el-col>-->
         </el-row>
         <!-- -- -->
         <el-row>
@@ -186,8 +186,8 @@
           </el-col>
         </el-row>
 
-        <el-row>
-            <el-col :span="24"><!-- joinValues -->
+<!--        <el-row>
+            <el-col :span="24">&lt;!&ndash; joinValues &ndash;&gt;
               <el-form-item class="leftItem" label="作业指导书" prop="fileResultIds">
                   <treeselect  class="uniflItem" style="text-align: 10px;width: 780px;text-align: left;"
                               v-model="formItem.fileResultIdArr"
@@ -202,7 +202,7 @@
                               placeholder="请选择作业指导书"/>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row>-->
       </el-card>
 
       <!-- 设备列表，只在最后环节显示此列表-->
@@ -214,7 +214,7 @@
         <div slot="header" class="clearfix item">
           <span><i class="el-icon-s-order" style="margin-right: 20px;"><b>评审信息</b></i></span>
         </div>
-        <el-row>
+<!--        <el-row>
           <el-col :xl="24" :xs="24">
             <el-form-item  class="textareaStyle" label="部门负责人审核" >
               <el-input :disabled="reviewDisable.advice_bmfzrsh"
@@ -222,12 +222,12 @@
                         v-model="adviceMsg.advice_bmfzrsh"></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row>-->
         <el-row>
           <el-col :xl="24" :xs="24">
             <el-form-item class="textareaStyle" label="业务部审核">
-              <el-input :disabled="reviewDisable.advice_ywbsh" 
-                        class="intputTextarea" type="textarea" 
+              <el-input :disabled="reviewDisable.advice_ywbsh"
+                        class="intputTextarea" type="textarea"
                         v-model="adviceMsg.advice_ywbsh"
               ></el-input>
             </el-form-item>
@@ -236,8 +236,8 @@
         <el-row>
           <el-col :xl="24" :xs="24">
             <el-form-item class="textareaStyle" label="财务部审核">
-              <el-input :disabled="reviewDisable.advice_cwbsh" 
-                        class="intputTextarea" type="textarea" 
+              <el-input :disabled="reviewDisable.advice_cwbsh"
+                        class="intputTextarea" type="textarea"
                         v-model="adviceMsg.advice_cwbsh"
               ></el-input>
             </el-form-item>
@@ -368,7 +368,7 @@
         deviceType:[],
         checkType:[
           {value: '1',label: '委托检验'},
-          {value: '2',label: '本院检验'},
+          {value: '2',label: '本部门检验'},
           {value: '3',label: '其他检验'},
         ],
         paymentType:[],

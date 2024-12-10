@@ -6,6 +6,7 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
+import { getPieChartData } from '@/api/chart'
 
 export default {
   mixins: [resize],
@@ -25,42 +26,20 @@ export default {
   },
   data() {
     return {
-      /*
-        返回 Json格式 
-        {
-          code: 200 / 404 / 500,
-          message: "success",
-          data:{
-              total: 2000 ,
-              pieColumn:[],
-              pieData:[]
-              
-              //total 数据总数一定要和 pieData 数据中 每个数据的和对应
-              }
-        }
-
-      */
       chart: null,
-      
-      total: 20000,
+
+      total: 270,
         // 饼形图数据
       // 饼形图 列信息
-      pieColumn:[
-        'A', 'B', 'C', 
-        'D', 'E', 'F',
-        'G', 'H', 'I',
-      ],
+      pieColumn:["电梯", "起重机械", "场内专用车辆", "质检", "科研", "其他"],
       // 饼形图 数值信息
       pieData:[
-              {value: 546, name: 'A'},
-              {value: 653, name: 'B'},
-              {value: 456, name: 'C'},
-              {value: 432, name: 'D'},
-              {value: 1048, name: 'E'},
-              {value: 562, name: 'F'},
-              {value: 997, name: 'G'},
-              {value: 442, name: 'H'},
-              {value: 1234, name: 'I'},
+              {value: 50, name: '电梯'},
+              {value: 65, name: '起重机械'},
+              {value: 45, name: '场内专用车辆'},
+              {value: 44, name: '质检'},
+              {value: 10, name: '科研'},
+              {value: 56, name: '其他'},
           ],
       pieChartLoading: true,
     }
@@ -71,12 +50,14 @@ export default {
         发送 ajax 请求 从后台获取 bar 图表数据
         ....
       */
+      this.getLoadingBarChartData();
+
       setTimeout(() => {
         this.$nextTick(() => {
           this.initChart()
         })
           this.tableLoading = false;
-        }, 3000);
+        }, 1000);
     },
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
@@ -86,7 +67,7 @@ export default {
             zlevel: 0,
             text: [
                 '{value|' + total + '}',
-                '{name|总办理个数}',
+                '{name|总检验个数}',
             ].join('\n'),
             rich: {
                 value: {
@@ -119,7 +100,7 @@ export default {
                 },
             },
         },
-        tooltip: {  
+        tooltip: {
             trigger: 'item',
             formatter: "{a}:{b} <br/> 处理个数: {c} ({d}%)",
           },
@@ -136,7 +117,7 @@ export default {
         },
         series: [
             {
-                name: '部门名称',
+                name: '设备类型',
                 type: 'pie',
                 radius: ['80%', '84%'],
                 center: [150, '50%'],
@@ -181,9 +162,19 @@ export default {
             }
         ],
       })
+    },
+
+    getLoadingBarChartData() {
+      getPieChartData().then(response => {
+        this.total = response.data.total;
+        this.pieData = response.data.pieData;
+        this.pieColumn = response.data.pieColumn;
+      })
     }
   },
   mounted() {
+
+    this.loadingPieChartData();
 
     setTimeout(() => {
       this.$nextTick(() => {

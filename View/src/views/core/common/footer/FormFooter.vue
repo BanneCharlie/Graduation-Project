@@ -79,6 +79,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
+
         <div v-if="isChoose">
           <el-col :span="7">
             <el-form-item label="下一步参与者" prop="desc">
@@ -240,6 +241,7 @@ export default {
         reportType: this.processObj.reportType,
       }).then((response) => {
         this.processData = response.data;
+        console.log("办理流程数据: " + this.processData);
         var list = this.processData.procTransList;
         this.radio = list[0].nextActDefId;
         this.selectPersonMap = new Map();

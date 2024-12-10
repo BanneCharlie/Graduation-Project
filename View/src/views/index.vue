@@ -197,7 +197,7 @@
 				</el-tab-pane>
 			</el-tabs>
 		</el-card>
-		<!-- echarts -->
+		<!-- echarts  TODO 数据代待优化处理-->
 		<el-card class="box-card">
 			<div slot="header" class="clearfix">
 				<i class="el-icon-data-line"></i>
@@ -221,7 +221,7 @@
 					<div class="ColHead" style="margin-left: 80px">
 						<i class="el-icon-pie-chart">
 							<span style="font-size: 18px; margin-left: 12px">
-								各部门办理统计
+								检验设备统计
 							</span>
 						</i>
 					</div>
@@ -435,6 +435,12 @@ export default {
 						path: 'pruductcenter/proCotractReview'
 					});
 					break;
+        // 我的报告
+        case 'myReport':
+          this.$router.push({
+            path: 'taskManagement/myReport'
+          });
+          break;
 			}
 		},
 		//获取当前用户所有待办事项

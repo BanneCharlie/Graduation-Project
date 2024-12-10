@@ -13,10 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author niminui
- * @date 2021/5/31 14:11
- */
 @RestController
 @RequestMapping("form-privilege")
 public class FormPrivilegeController {

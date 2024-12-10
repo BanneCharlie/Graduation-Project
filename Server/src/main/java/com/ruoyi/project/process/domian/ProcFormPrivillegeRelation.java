@@ -24,5 +24,4 @@ public class ProcFormPrivillegeRelation extends AbstractEntity {
     private String relationStatus;
     private String relationComment;
     private String formElementComment;
-
 }

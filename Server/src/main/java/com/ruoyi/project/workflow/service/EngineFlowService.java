@@ -34,7 +34,7 @@ public class EngineFlowService {
     private static final boolean AUTO = true;
     private static final String AUTO_NAME = "WFUser";
     private static final String AUTO_KEY = "jtusnpj8yp";
-    private static final String URL = "http://192.168.106.41:7003/20/WFProxy/engine";  //外网测试环境
+    //private static final String URL = "http://192.168.106.41:7003/20/WFProxy/engine";  //外网测试环境
     private static final String team_code = "NJDTOA";  //
     private static final String team_key = "NJDTOA";  //
 
@@ -77,6 +77,7 @@ public class EngineFlowService {
                 .eq(EngineProcActDef::getProcDefId, procDefId)
                 .eq(EngineProcActDef::getEnType, "start");
         EngineProcActDef engineProcActDef = IEngineProcActDefService.getOne(epQuery);
+        System.out.println("当前流程定义中类别为start的起始节点：" + engineProcActDef);
         //根据起始点寻找起始点下一步参与者（流程未启动）
         String startActDefId = engineProcActDef.getActDefId();
         List<EngineProcActDefRelation> relationList =
@@ -93,6 +94,7 @@ public class EngineFlowService {
             vo.setStep(engineProcUserOrgList);//待选人员列表
             list.add(vo);
         }
+        System.out.println("返回的数据 " + list);
         return list;
     }
 

@@ -62,15 +62,6 @@ public class DeviceTaskController extends BaseController {
     @Resource
     private BusinessRelationDeviceUserService businessRelationDeviceUserService;
 
-    /**
-     * --->  展示所有
-     *             1. 当前部门
-     *             2. 完成的合同评审流程的数据
-     *        列表
-     * @author xqh,  987072248@qq.com
-     * @date 2021/7/27 11:29
-     * @param
-     */
     @GetMapping("contract-send")
     public TableDataInfo getContractFinishProcessAndSelfDeptData(ReqContReview reqContReview){
         SysUser loginUser = SecurityUtils.getLoginUser().getUser();

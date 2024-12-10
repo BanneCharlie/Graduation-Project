@@ -69,7 +69,7 @@
       <el-table-column prop="procDesc" label="流程定义说明" align="center" width="250"></el-table-column>
       <el-table-column label="操作" align="center" width="370">
             <template slot-scope="scope">
-                <el-button class="handleBtn" type="primary" size="small">修改权限</el-button>
+                <el-button class="handleBtn" type="primary" size="small" @click="handleUpdate(scope.row)">编辑</el-button>
                 <el-button class="handleBtn" type="primary" size="small" @click="handleClick(scope.row)">编辑流程节点</el-button>
             </template>
       </el-table-column>

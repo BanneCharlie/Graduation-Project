@@ -1,6 +1,7 @@
 package com.ruoyi.project.business.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.exception.CustomException;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.project.business.domain.BusinessRequestReport;
@@ -8,6 +9,7 @@ import com.ruoyi.project.business.mapper.BusinessRequestReportMapper;
 import com.ruoyi.project.business.service.BusinessRequestReportService;
 import com.ruoyi.project.business.utils.FileUtil;
 import com.ruoyi.project.business.vo.ReportVo;
+import com.ruoyi.project.process.vo.PieVo;
 import com.ruoyi.project.system.domain.SysUser;
 
 import org.springframework.stereotype.Service;
@@ -16,24 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/***
- * ---->
- *
- * @author xqh, 987072248@qq.com
- * @version 1.0
- * @date: 2021-08-05 14:58 - 星期四
- * @package: com.ruoyi.project.business.service.impl
- * @JDK-Version : 1.8
- */
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class BusinessRequestReportServiceImpl extends ServiceImpl<BusinessRequestReportMapper, BusinessRequestReport> implements BusinessRequestReportService {
@@ -91,6 +79,58 @@ public class BusinessRequestReportServiceImpl extends ServiceImpl<BusinessReques
         }
     }
 
+    @Override
+    public List<ReportVo> getAllReportList() {
+        List<ReportVo> reportVoList = businessRequestReportMapper.getAllReportList();
 
+        if (reportVoList == null && reportVoList.size() <= 0) {
+            throw new CustomException("没有查询到报告信息！");
+        }
+
+        return reportVoList;
+    }
+
+    /**
+     * 根据报告列表统计分类数据并返回饼图数据
+     *
+     * @param reportList 报告列表
+     * @return 包含饼图数据的 Map
+     */
+    @Override
+    public Map<String, Object> getPieChartData(List<ReportVo> reportList) {
+        Map<String, Integer> categoryCountMap = new HashMap<>();
+        categoryCountMap.put("DT", 0);
+        categoryCountMap.put("CJ", 0);
+        categoryCountMap.put("QZ", 0);
+        categoryCountMap.put("ZJ", 0);
+        categoryCountMap.put("KJ", 0);
+        categoryCountMap.put("QT", 0);
+
+        // 遍历报告列表并统计分类数量
+        for (ReportVo report : reportList) {
+            String category = report.getTemplateCategory();
+            categoryCountMap.put(category, categoryCountMap.getOrDefault(category, 0) + 1);
+        }
+
+        // 创建饼图数据列表
+        List<PieVo> pieVoList = new ArrayList<>();
+        pieVoList.add(new PieVo(categoryCountMap.get("DT"), "电梯"));
+        pieVoList.add(new PieVo(categoryCountMap.get("CJ"), "起重机械"));
+        pieVoList.add(new PieVo(categoryCountMap.get("QZ"), "场内专用车辆"));
+        pieVoList.add(new PieVo(categoryCountMap.get("ZJ"), "质检"));
+        pieVoList.add(new PieVo(categoryCountMap.get("KJ"), "科研"));
+        pieVoList.add(new PieVo(categoryCountMap.get("QT"), "其他"));
+
+        // 计算总计数
+        int total = reportList.size();
+
+        // 组装返回数据
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("total", total);
+        resultMap.put("pieColumn", Arrays.asList("电梯", "起重机械", "场内专用车辆", "质检", "科研", "其他"));
+        resultMap.put("pieData", pieVoList);
+
+        return resultMap;
+    }
 
 }

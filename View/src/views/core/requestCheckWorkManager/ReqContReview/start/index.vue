@@ -138,11 +138,11 @@
               <el-input class="uniflItem " v-model="formItem.addressUnit"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+<!--          <el-col :span="12">
             <el-form-item class="rightItem" label="邮编" prop="zipCode">
               <el-input class="uniflItem " v-model="formItem.zipCode"></el-input>
             </el-form-item>
-          </el-col>
+          </el-col>-->
         </el-row>
         <!-- -- -->
         <el-row>
@@ -162,16 +162,16 @@
           </el-col>
         </el-row>
 
-        <el-row>
+<!--        <el-row>
           <el-col :span="24">
-            <!-- joinValues -->
+            &lt;!&ndash; joinValues &ndash;&gt;
             <el-form-item class="leftItem" label="作业指导书" prop="fileResultIds">
               <treeselect class="uniflItem" style="text-align: 10px;width: 780px;text-align: left;" v-model="formItem.fileResultIds"
                 searchable disableBranchNodes openDirection="top" :options="fileWorks" :show-count="true" :multiple="true"
                 joinValues placeholder="请选择作业指导书" />
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row>-->
       </el-card>
     </el-form>
 
@@ -261,7 +261,7 @@
           },
           {
             value: '2',
-            label: '本院检验'
+            label: '本部门检验'
           },
           {
             value: '3',

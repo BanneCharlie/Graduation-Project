@@ -258,7 +258,7 @@
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+<!--          <el-col :span="12">
             <el-form-item class="rightItem" label="邮编" prop="zipCode">
               <el-input
                 :disabled="judgeIsUpdate"
@@ -266,7 +266,7 @@
                 v-model="formItem.zipCode"
               ></el-input>
             </el-form-item>
-          </el-col>
+          </el-col>-->
         </el-row>
         <!-- -- -->
         <el-row>
@@ -301,9 +301,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
+
+<!--        <el-row>
           <el-col :span="24">
-            <!-- joinValues -->
+            &lt;!&ndash; joinValues &ndash;&gt;
             <el-form-item
               class="leftItem"
               label="作业指导书"
@@ -325,7 +326,7 @@
               />
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row>-->
 
         <!-- <el-row v-if="isEndStep">
           <el-col :span="12">
@@ -352,7 +353,7 @@
             ></span
           >
         </div>
-        <el-row>
+<!--        <el-row>
           <el-col :xl="24" :xs="24">
             <el-form-item class="textareaStyle" label="部门负责人审核">
               <el-input
@@ -364,7 +365,7 @@
               ></el-input>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row>-->
         <el-row>
           <el-col :xl="24" :xs="24">
             <el-form-item class="textareaStyle" label="业务部审核">
@@ -562,7 +563,7 @@ export default {
         },
         {
           value: "2",
-          label: "本院检验",
+          label: "本部门检验",
         },
         {
           value: "3",

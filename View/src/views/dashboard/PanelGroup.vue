@@ -16,7 +16,7 @@
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="4" class="card-panel-col">
-      <div v-if="isSendTaskManage" class="card-panel" @click="routeLinkByName('waitSendTask')">
+      <div class="card-panel" @click="routeLinkByName('myReport')">
         <div class="card-panel-icon-wrapper">
           <el-image
           style="width: 50px; height: 40px"
@@ -24,14 +24,13 @@
         </el-image>
         </div>
         <div class="card-panel-description">
-          <el-badge :value="waitSendTaskCount" type="warning" :max="99">
-            <div class="card-panel-text"  :style="{'font-size' : waitSendTaskCount > 10 ? '16px' : '18px'}">
-              待派发任务
+            <div class="card-panel-text">
+              我的报告
             </div>
-          </el-badge>
         </div>
       </div>
-      <div v-else class="card-panel" @click="routeLinkByName('requestReport')">
+
+<!--      <div v-else class="card-panel" @click="routeLinkByName('requestReport')">
         <div class="card-panel-icon-wrapper">
           <el-image
           style="width: 50px; height: 40px"
@@ -43,7 +42,7 @@
             检验报告申请
           </div>
         </div>
-      </div>
+      </div>-->
     </el-col>
     <el-col :xs="12" :sm="12" :lg="4" class="card-panel-col">
       <div class="card-panel" @click="routeLinkByName('taskReceive')">

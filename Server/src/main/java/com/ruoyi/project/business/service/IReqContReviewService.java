@@ -3,6 +3,7 @@ package com.ruoyi.project.business.service;
 import com.ruoyi.project.business.domain.ReqContReview;
 import com.ruoyi.project.template.commons.mybatis.base.service.IBaseService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,4 +17,8 @@ public interface IReqContReviewService extends IBaseService<ReqContReview> {
     boolean deleteBeanByIds(String[] rowIds);
 
     List<Object> selectRowIds();
+
+    List<ReqContReview> getALlList();
+
+    List<Integer> getBarChartData(List<ReqContReview> reqContReviewList);
 }

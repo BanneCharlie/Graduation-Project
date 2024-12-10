@@ -8,11 +8,15 @@ import com.ruoyi.framework.web.domain.AjaxResult;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.business.domain.BusinessReportExamine;
 import com.ruoyi.project.business.domain.BusinessRequestReport;
+import com.ruoyi.project.business.domain.ReqContReview;
 import com.ruoyi.project.business.service.BusinessRepExamService;
 import com.ruoyi.project.business.service.BusinessRequestReportService;
+import com.ruoyi.project.business.service.IReqContReviewService;
+import com.ruoyi.project.business.vo.ReportVo;
 import com.ruoyi.project.common.vo.ProcessResultVo;
 import com.ruoyi.project.process.domian.*;
 import com.ruoyi.project.process.service.*;
+import com.ruoyi.project.process.vo.PieVo;
 import com.ruoyi.project.process.vo.ProcessVo;
 import com.ruoyi.project.system.domain.SysDept;
 import com.ruoyi.project.system.domain.SysUser;
@@ -34,15 +38,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-/**
- * @author niminui
- * @date 2021/5/26 19:12
- */
 @RestController
 @RequestMapping("process")
 public class ProcessController extends BaseController {
@@ -77,6 +74,9 @@ public class ProcessController extends BaseController {
     private BusinessRepExamService businessRepExamService;
     @Resource
     private SysUserReportAuthorService sysUserReportAuthorService;
+
+    @Resource
+    private IReqContReviewService iReqContReviewService;
 
     /**
      * ======================流程运行相关方法开始========================================
@@ -127,7 +127,7 @@ public class ProcessController extends BaseController {
         SysUser user = iSysUserService.selectUserByUserName(SecurityUtils.getUsername());
         List<NextStepVo> list = engineFlowService.queryWorkflowNextStepsStartByProcDefId(processKey, user);
         logger.info("processKey=" + processKey);
-        for (NextStepVo nextStepVo : list) {
+/*        for (NextStepVo nextStepVo : list) {
             if (nextStepVo.getNextActName().contains("部门负责人") || "检验报告审核".equals(nextStepVo.getNextActName())) {
                 List<EngineProcUserorg> organizeList = new ArrayList<>();
                 List<EngineProcUserorg> uerList = nextStepVo.getStep();
@@ -164,7 +164,7 @@ public class ProcessController extends BaseController {
                     nextStepVo.setStep(checkReportExamineList);
                 }
             }
-        }
+        }*/
         EngineProcDef processDefinition = engineFlowService.getDefinitionByProcDefId(processKey, user);
 
         retMap.put("businessKey", businessKey);
@@ -293,7 +293,7 @@ public class ProcessController extends BaseController {
 
         //获取流程下一步queryWorkflowNextSteps
         List<NextStepVo> list = engineFlowService.queryWorkflowNextStepsByProcInstd(processInstanceId, processKey, user);
-        for (NextStepVo nextStepVo : list) {
+/*        for (NextStepVo nextStepVo : list) {
             if (nextStepVo.getNextActName().contains("部门负责人") || nextStepVo.getNextActName().contains("检验报告审核")) {
                 List<EngineProcUserorg> organizeList = new ArrayList<>();
                 List<EngineProcUserorg> uerList = nextStepVo.getStep();
@@ -340,9 +340,7 @@ public class ProcessController extends BaseController {
                     nextStepVo.setStep(checkReportExamineList);
                 }
             }
-        }
-
-
+        }*/
 
         logger.info("processInstanceId=" + processInstanceId);
         EngineProcDef processDefinition = engineFlowService.getDefinitionByProcDefId(processKey, user);
@@ -650,5 +648,45 @@ public class ProcessController extends BaseController {
             user = iSysUserService.selectUserByUserName(list.get(0).getCreateUserId());
         }
         return AjaxResult.success(user);
+    }
+
+    /**
+     * 获取柱状图数据
+     * @return
+     */
+    @GetMapping("getBarChartData")
+    public AjaxResult getBarChartData() {
+        // 查询所有的处理的报告数目  合同数目
+        List<ReqContReview> reqContReviewList = iReqContReviewService.getALlList();
+        // 根据月份划分日期
+        List<Integer> reqContReviewData = iReqContReviewService.getBarChartData(reqContReviewList);
+
+        // 查询所有的检验报告数目
+        List<BusinessReportExamine> businessReportExamineList = businessRepExamService.getALlList();
+        // 根据月份划分日期
+        List<Integer> businessReportExamineData = businessRepExamService.getBarChartData(businessReportExamineList);
+
+        // 将所有的报告数目和合同数目合并
+        List<Integer> charData = new ArrayList<>();
+        for (int i = 0; i < reqContReviewData.size(); i++) {
+            charData.add(reqContReviewData.get(i) + businessReportExamineData.get(i));
+        }
+
+        return AjaxResult.success(charData);
+    }
+
+    /**
+     * 获取饼状图数据
+     * @return
+     */
+    @GetMapping("getPieChartData")
+    public AjaxResult getPieChartData() {
+        // 查询所有需要质检的设备
+        List<ReportVo> reportList = businessRequestReportService.getAllReportList();
+
+        // 根据报告列表统计分类数据并返回饼图数据 {value: 数量, name: 设备名称} 格式
+        Map<String, Object> pieChartData = businessRequestReportService.getPieChartData(reportList);
+
+        return AjaxResult.success(pieChartData);
     }
 }
